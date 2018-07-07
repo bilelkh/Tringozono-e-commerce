@@ -22,12 +22,12 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(morgan('dev'));
 app.use(cors());
 
-app.get('/', (req,res,next) =>{
+app.get('/', (req,res,next) => {
     res.json({
         user: 'William'
     });
 });
 
-app.listen(3030, (err) => {
-    console.log("Magic happens on port "+config.port);
+app.listen(4200, (err) => {
+    console.log("Magic happens on port " + config.port);
 });
