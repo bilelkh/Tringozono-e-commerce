@@ -11,15 +11,20 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HomeComponent } from './home/home.component';
 import { MessageComponent } from './message/message.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from './login/login.component';
 
 import { RestApiService } from './rest-api.service';
 import { DataService } from './data.service';
+import { AuthGuardService } from './auth-guard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MessageComponent,
+    RegistrationComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +33,7 @@ import { DataService } from './data.service';
     FormsModule,
     HttpClientModule,
   ],
-  providers: [RestApiService,DataService],
+  providers: [RestApiService, DataService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
