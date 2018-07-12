@@ -13,7 +13,7 @@ const UserSchema = new Schema({
     picture: String,
     //all users are set to not be seller
     isSeller: { type: Boolean, default: false },
-    adress: {
+    address: {
         addr1: String,
         addr2: String,
         city: String,
