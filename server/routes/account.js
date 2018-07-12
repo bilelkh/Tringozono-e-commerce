@@ -27,11 +27,11 @@ router.post('/signup', (req, res, next) => {
                 expiresIn: '7d'
             });
 
-        res.json({
-            success: true,
-            message: 'Enjoy your token',
-            token: token
-        });
+            res.json({
+                success: true,
+                message: 'Enjoy your token',
+                token: token
+            });
         }
     });
 });
