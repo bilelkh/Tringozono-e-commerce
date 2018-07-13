@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
 })
 export class MessageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private data: DataService) { }
 
   ngOnInit() {
   }
