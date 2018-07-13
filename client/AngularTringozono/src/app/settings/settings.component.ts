@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RestApiService } from '../rest-api.service';
 import { DataService } from '../data.service';
+import { RestApiService } from '../rest-api.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,15 +16,14 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      //check for user profile
-      if(!this.data.user) {
+      if (!this.data.user) {
         await this.data.getProfile();
       }
       this.currentSettings = Object.assign({
         newPwd: '',
         pwdConfirm: ''
       }, this.data.user);
-    } catch(error){
+    } catch (error) {
       this.data.error(error);
     }
   }
@@ -70,12 +69,14 @@ export class SettingsComponent implements OnInit {
             isSeller: this.currentSettings['isSeller']
           }
         );
-        data['success'] ? (this.data.getProfile(), this.data.success(data['message'])) : this.data.error(data['message']);
+
+        data['success']
+          ? (this.data.getProfile(), this.data.success(data['message']))
+          : this.data.error(data['message']);
       }
     } catch (error) {
       this.data.error(error['message']);
     }
     this.btnDisabled = false;
   }
-
 }

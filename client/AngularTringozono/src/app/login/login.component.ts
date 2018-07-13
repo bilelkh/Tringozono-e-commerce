@@ -1,35 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 
-import { RestApiService } from '../rest-api.service';
-import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { DataService } from '../data.service';
+import { RestApiService } from '../rest-api.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   email = '';
   password = '';
 
   btnDisabled = false;
 
-  constructor(private router: Router, private rest: RestApiService, private data: DataService) { }
+  constructor(
+    private router: Router,
+    private rest: RestApiService,
+    private data: DataService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   validate() {
     if (this.email) {
-      if(this.password) {
+      if (this.password) {
         return true;
       } else {
-        this.data.error("password isn't entered");
+        this.data.error('Password is not entered');
       }
     } else {
-      this.data.error("email isn't entered")
+      this.data.error('Email is not entered.');
     }
   }
 
@@ -37,14 +39,14 @@ export class LoginComponent implements OnInit {
     this.btnDisabled = true;
     try {
       if (this.validate()) {
-        const data = await this.rest.post (
+        const data = await this.rest.post(
           'http://localhost:3030/api/accounts/login',
           {
-          email: this.email,
-          password: this.password,
+            email: this.email,
+            password: this.password,
           },
         );
-        if(data['success']) {
+        if (data['success']) {
           localStorage.setItem('token', data['token']);
           await this.data.getProfile();
           this.router.navigate(['/']);
