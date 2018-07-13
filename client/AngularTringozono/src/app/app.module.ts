@@ -17,6 +17,9 @@ import { LoginComponent } from './login/login.component';
 import { RestApiService } from './rest-api.service';
 import { DataService } from './data.service';
 import { AuthGuardService } from './auth-guard.service';
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { AuthGuardService } from './auth-guard.service';
     MessageComponent,
     RegistrationComponent,
     LoginComponent,
+    ProfileComponent,
+    SettingsComponent,
+    AddressComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ export class AppComponent {
   isCollapsed = true;
 
   constructor(private router: Router, private data: DataService) {
-    //this.data.getProfile();
+    this.data.getProfile();
   }
 
   //authentication
@@ -32,6 +32,7 @@ export class AppComponent {
   }
 
   logout() {
+    this.data.user = {};
     localStorage.clear();
     this.router.navigate(['']);
   }
