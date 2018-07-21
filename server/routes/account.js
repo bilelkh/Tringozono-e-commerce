@@ -47,7 +47,7 @@ router.post('/login', (req, res, next) => {
             success: false,
             message: 'Authenticated failed, user not found'
             });
-        } else if(user) {
+        } else if (user) {
 
             var validPassword = user.comparePassword(req.body.password);
             if (!validPassword) {
