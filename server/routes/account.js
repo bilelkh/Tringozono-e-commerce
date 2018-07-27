@@ -5,12 +5,13 @@ const User = require('../models/user');
 const config = require('../config');
 const checkJWT = require('../middlewares/check-jwt');
 
+// POST method signup
 router.post('/signup', (req, res, next) => {
     let user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
-    user.picture = user.gravatar();
+    user.picture = user.gravatar(); // function to generate avatar image
     user.isSeller = req.body.isSeller;
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
@@ -37,6 +38,7 @@ router.post('/signup', (req, res, next) => {
     });
 });
 
+// POST method login
 router.post('/login', (req, res, next) => {
     User.findOne({ email: req.body.email }, (err, user) => {
 
@@ -74,8 +76,9 @@ router.post('/login', (req, res, next) => {
     });
 });
 
+//checkJWT runs first for check if there's a token or not
 router.route('/profile')
-  //checkJWT runs first for check if there's a token or not
+  //GET method to return profile information
   .get(checkJWT, (req, res, next) => {
     User.findOne({ _id: req.decoded.user._id }, (err, user) => {
       res.json({
@@ -85,6 +88,7 @@ router.route('/profile')
       });
     });
   })
+  //POST method to edit profile
   .post(checkJWT, (req, res, next) => {
     User.findOne({ _id: req.decoded.user._id }, (err, user) => {
       if(err) return next(err);
@@ -105,6 +109,7 @@ router.route('/profile')
   });
 
 router.route('/address')
+  //GET method to return address information
   .get(checkJWT, (req, res, next) => {
     User.findOne({ _id: req.decoded.user._id }, (err, user) => {
       res.json({
@@ -114,6 +119,7 @@ router.route('/address')
       });
     });
   })
+  //POST method to edit profile address
   .post(checkJWT, (req, res, next) => {
     User.findOne({ _id: req.decoded.user._id }, (err, user) => {
       if(err) return next(err);

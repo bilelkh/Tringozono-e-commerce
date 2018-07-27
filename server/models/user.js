@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-//library to encrypt passwords
+// libraries to encrypt passwords
 const bcrypt = require('bcrypt-nodejs');
-
 const crypto = require('crypto');
 
 const UserSchema = new Schema({
@@ -11,7 +10,7 @@ const UserSchema = new Schema({
     name: String,
     password: String,
     picture: String,
-    //all users are set to not be seller
+    // all users are set to not be seller
     isSeller: { type: Boolean, default: false },
     address: {
         addr1: String,

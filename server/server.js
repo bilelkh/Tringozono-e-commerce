@@ -8,7 +8,7 @@ const config = require('./config');
 
 const app = express();
 
-//testing database connection
+// testing database connection
 mongoose.connect(config.database, (err) => {
     if (err) {
         console.log(err);
@@ -17,8 +17,11 @@ mongoose.connect(config.database, (err) => {
     }
 });
 
+// parses the text as JSON
 app.use(bodyParser.json());
+// parses the text as URL encoded data
 app.use(bodyParser.urlencoded({ extended: false}));
+// morgan generate logs
 app.use(morgan('dev'));
 app.use(cors());
 
@@ -30,6 +33,7 @@ app.use('/api', mainRoutes);
 app.use('/api/accounts', userRoutes);
 app.use('/api/seller', sellerRoutes);
 
+// testing port connection
 app.listen(3030, (err) => {
     console.log("Port: " + config.port);
 });

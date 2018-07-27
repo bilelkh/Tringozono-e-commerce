@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Category = require('../models/category');
 
 router.route('/categories')
+  // GET method to return existing categories
   .get((req, res, next) => {
     Category.find({}, (err, categories) => {
       res.json({
@@ -11,6 +12,7 @@ router.route('/categories')
       })
     })
   })
+  // POST method to add new categories
   .post((req, res, next) => {
     let category = new Category();
     category.name = req.body.category;

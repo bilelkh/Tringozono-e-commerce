@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-
+  // reference to others objects
   category: { type: Schema.Types.ObjectId, ref: 'Category'},
   owner:  { type: Schema.Types.ObjectId, ref: 'User'},
   image: String,
