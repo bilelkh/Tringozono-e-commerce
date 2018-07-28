@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const Product = require('../models/product');
 
-//to communicate with aws servers
+// to communicate with aws servers
 const aws = require('aws-sdk');
-//library to upload images
+// library to upload images
 const multer =require('multer');
-//library to upload directly to s3
+// library to upload directly to s3
 const multerS3 = require('multer-s3');
 
-//ADVICE: In the next block should be passed the accessKeyId and secretAccessKey but
-//due to circumstances the bucket is public, so there's no need to keys
+// ADVICE: In the next block should be passed the accessKeyId and secretAccessKey but
+// due to circumstances the bucket is public to read, when this project was did i only
+// had a student account of AWS, these accounts cannot create IAM users or a new 
+// accessKeyId and secretAccessKey 
 
-//communicate directly with the s3 bucket
+// communicate directly with the s3 bucket
 const s3 = new aws.S3({
   accessKeyId: "",
   secretAccessKey: ""
@@ -19,7 +21,7 @@ const s3 = new aws.S3({
 
 const checkJWT = require('../middlewares/check-jwt');
 
-//upload function to amazon s3
+// upload function to amazon s3
 let upload = multer({
   storage: multerS3({
     s3: s3,
@@ -34,7 +36,7 @@ let upload = multer({
 });
 
 router.route('/products')
-  //get method with references of others collections
+  // GET method with references of others collections
   .get(checkJWT, (req, res, next) => {
     Product.find({ owner: req.decoded.user._id })
       .populate('owner')
