@@ -3,11 +3,14 @@ const async = require('async');
 
 const Category = require('../models/category');
 const Product = require('../models/product');
+const Review = require('../models/review');
+
+const checkJWT = require('../middlewares/check-jwt');
 
 // GET method to list all the products of all categories
 router.get('/products', (req, res, next) => {
   const perPage = 10;
-  const page = req.query.page
+  const page = req.query.page;
   
   // async.parallel in this block run 2 separate queries at same time
   async.parallel([
@@ -87,6 +90,7 @@ router.get('/categories/:id', (req, res, next) => {
         .limit(perPage)
         .populate('category')
         .populate('owner')
+        .populate('reviews')
         .exec((err, products) => {
           if(err) return next(err);
           callback(err, products);
@@ -106,7 +110,7 @@ router.get('/categories/:id', (req, res, next) => {
     
     res.json({
       success: true,
-      message: 'categories',
+      message: 'category',
       products: products,
       categoryName: category.name,
       totalProducts: totalProducts,
@@ -120,6 +124,7 @@ router.get('/product/:id', (req, res, next) => {
   Product.findById({ _id: req.params.id })
     .populate('category')
     .populate('owner')
+    .deepPopulate('reviews.owner')
     .exec((err, product) => {
       if(err) {
         res.json({
@@ -133,8 +138,37 @@ router.get('/product/:id', (req, res, next) => {
             product: product
           });
         }
-      };
+      }
     });
+});
+
+router.post('/review', checkJWT, (req, res, next) => {
+  async.waterfall([
+    // find the product and callback the id to the next function
+    function(callback) {
+      Product.findOne({ _id: req.body.productId}, (err, product) => {
+        if (product) {
+          callback(err, product);
+          }
+      });
+    },
+    function(product) {
+      let review = new Review();
+      review.owner = req.decoded.user._id;
+
+      if (req.body.title) review.title = req.body.title;
+      if (req.body.description) review.description = req.body.description
+      review.rating = req.body.rating;
+
+      product.reviews.push(review._id);
+      product.save();
+      review.save();
+      res.json({
+        success: true,
+        message: "Successfully added the review"
+      });
+    }
+  ]);
 });
 
 module.exports = router;
