@@ -9,7 +9,7 @@ const config = require('./config');
 const app = express();
 
 // testing database connection
-mongoose.connect(config.database, { useMongoClient: true}, (err) => {
+mongoose.connect(config.database, { useMongoClient: true}, err => {
     if (err) {
         console.log(err);
     } else {

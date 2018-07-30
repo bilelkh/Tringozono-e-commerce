@@ -16,14 +16,14 @@ router.get('/products', (req, res, next) => {
   async.parallel([
     function (callback) {
       // count the total amount of products
-      Product.count({ }, (err, count) => {
+      Product.count({}, (err, count) => {
         let totalProducts = count;
         callback(err, totalProducts);
       });
     },
     // find all the products with limited query
     function (callback) {
-      Product.find({ })
+      Product.find({})
         .skip(perPage * page)
         .limit(perPage)
         .populate('category')
@@ -33,13 +33,13 @@ router.get('/products', (req, res, next) => {
           callback(err, products);
         });
     }
-  ],
-  function (err, results) {
+  ], function (err, results) {
     let totalProducts = results[0];
     let products = results[1];
+
     res.json({
       success: true,
-      message: 'categories',
+      message: 'category',
       products: products,
       totalProducts: totalProducts,
       pages: Math.ceil(totalProducts / perPage)
@@ -98,12 +98,11 @@ router.get('/categories/:id', (req, res, next) => {
     },
     // GET category name
     function (callback) {
-      Category.findOne({ _id: req.params.id}, (err, category) => {
+      Category.findOne({ _id: req.params.id }, (err, category) => {
         callback(err, category)
       });
     }
-  ],
-  function(err, results) {
+  ], function(err, results) {
     let totalProducts = results[0];
     let products = results[1];
     let category = results[2];
@@ -121,8 +120,8 @@ router.get('/categories/:id', (req, res, next) => {
 
 // GET method to search a product by respective id
 router.get('/product/:id', (req, res, next) => {
-  Product.findById({ _id: req.params.id })
-    .populate('category')
+  Product.find({ _id: req.params.id })
+    .populate('categories')
     .populate('owner')
     .deepPopulate('reviews.owner')
     .exec((err, product) => {
